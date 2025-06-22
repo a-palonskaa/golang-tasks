@@ -38,5 +38,6 @@ func ComputeLoad(guests []Guest) []Load {
 			currentGuests += changesInGuests[date]
 			res = append(res, Load{date, currentGuests})
 		}
+	}
 	return res
 }
