@@ -6,17 +6,19 @@ import (
 	"strings"
 )
 
+var (
+	ones = []string{"", "one", "two", "three", "four",
+		"five", "six", "seven", "eight", "nine"}
+	teens = []string{"ten", "eleven", "twelve", "thirteen", "fourteen",
+		"fifteen", "sixteen", "seventeen", "eighteen", "nineteen"}
+	tens = []string{"", "", "twenty", "thirty", "forty",
+		"fifty", "sixty", "seventy", "eighty", "ninety"}
+)
+
 func Spell(num int64) string {
 	if num == 0 {
 		return "zero"
 	}
-
-	ones := []string{1: "one", 2: "two", 3: "three", 4: "four", 5: "five",
-		6: "six", 7: "seven", 8: "eight", 9: "nine"}
-	teens := []string{10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen", 15: "fifteen",
-		16: "sixteen", 17: "seventeen", 18: "eighteen", 19: "nineteen"}
-	tens := []string{2: "twenty", 3: "thirty", 4: "forty", 5: "fifty",
-		6: "sixty", 7: "seventy", 8: "eighty", 9: "ninety"}
 
 	var str strings.Builder
 
@@ -25,40 +27,36 @@ func Spell(num int64) string {
 		num = -num
 	}
 
-	convertLessThanHundred := func(n int) string {
+	convertLessThanHundred := func(str *strings.Builder, n int) {
 		if n == 0 {
-			return ""
+			return
 		}
 
-		var res strings.Builder
 		switch {
 		case n < 10:
-			res.WriteString(ones[n])
+			str.WriteString(ones[n])
 		case n < 20:
-			res.WriteString(teens[n])
+			str.WriteString(teens[n%10])
 		default:
-			res.WriteString(tens[n/10])
+			str.WriteString(tens[n/10])
 			if n%10 != 0 {
-				res.WriteString("-")
-				res.WriteString(ones[n%10])
+				str.WriteString("-")
+				str.WriteString(ones[n%10])
 			}
 		}
-		return res.String()
 	}
 
-	convert := func(n int) string {
-		var res strings.Builder
+	convert := func(str *strings.Builder, n int) {
 		if n >= 100 {
-			res.WriteString(ones[n/100])
-			res.WriteString(" hundred")
+			str.WriteString(ones[n/100])
+			str.WriteString(" hundred")
 			if remainder := n % 100; remainder > 0 {
-				res.WriteString(" ")
-				res.WriteString(convertLessThanHundred(remainder))
+				str.WriteString(" ")
+				convertLessThanHundred(str, remainder)
 			}
 		} else {
-			res.WriteString(convertLessThanHundred(n))
+			convertLessThanHundred(str, n)
 		}
-		return res.String()
 	}
 
 	type scale struct {
@@ -82,7 +80,7 @@ func Spell(num int64) string {
 				str.WriteString(" ")
 			}
 
-			str.WriteString(convert(chunk))
+			convert(&str, chunk)
 
 			if s.name != "" {
 				str.WriteString(" ")

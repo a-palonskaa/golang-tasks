@@ -2,6 +2,11 @@
 
 package hotelbusiness
 
+import (
+	"maps"
+	"slices"
+)
+
 type Guest struct {
 	CheckInDate  int
 	CheckOutDate int
@@ -17,19 +22,17 @@ func ComputeLoad(guests []Guest) (res []Load) {
 		return nil
 	}
 
-	startDate := guests[0].CheckInDate
-	endDate := guests[0].CheckOutDate
 	changesInGuests := make(map[int]int)
 	for _, guest := range guests {
 		changesInGuests[guest.CheckInDate]++
 		changesInGuests[guest.CheckOutDate]--
-
-		startDate = min(startDate, guest.CheckInDate)
-		endDate = max(endDate, guest.CheckOutDate)
 	}
 
+	sortedChangeDates := slices.Collect(maps.Keys(changesInGuests))
+	slices.Sort(sortedChangeDates)
+
 	currentGuests := 0
-	for date := startDate; date <= endDate; date++ {
+	for _, date := range sortedChangeDates {
 		if changesInGuests[date] != 0 {
 			currentGuests += changesInGuests[date]
 			res = append(res, Load{date, currentGuests})

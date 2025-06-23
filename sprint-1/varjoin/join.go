@@ -9,7 +9,15 @@ func Join(sep string, args ...string) string {
 		return ""
 	}
 
+	totalLen := 0
+	for _, s := range args {
+		totalLen += len(s)
+	}
+	totalLen += len(sep) * (len(args) - 1)
+
 	str := strings.Builder{}
+	str.Grow(totalLen)
+
 	str.WriteString(args[0])
 	for _, val := range args[1:] {
 		str.WriteString(sep)
