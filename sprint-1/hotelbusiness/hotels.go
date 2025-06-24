@@ -17,7 +17,7 @@ type Load struct {
 	GuestCount int
 }
 
-func ComputeLoad(guests []Guest) (res []Load) {
+func ComputeLoad(guests []Guest) []Load {
 	if len(guests) == 0 {
 		return nil
 	}
@@ -32,6 +32,7 @@ func ComputeLoad(guests []Guest) (res []Load) {
 	slices.Sort(sortedChangeDates)
 
 	currentGuests := 0
+	res := make([]Load, 0, len(sortedChangeDates))
 	for _, date := range sortedChangeDates {
 		if changesInGuests[date] != 0 {
 			currentGuests += changesInGuests[date]
