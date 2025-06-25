@@ -19,12 +19,41 @@ var scales = []scale{
 }
 
 var (
-	ones = map[int]string{1: "one", 2: "two", 3: "three", 4: "four",
-		5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine"}
-	teens = map[int]string{10: "ten", 11: "eleven", 12: "twelve", 13: "thirteen", 14: "fourteen",
-		15: "fifteen", 16: "sixteen", 17: "seventeen", 18: "eighteen", 19: "nineteen"}
-	tens = map[int]string{2: "twenty", 3: "thirty", 4: "forty",
-		5: "fifty", 6: "sixty", 7: "seventy", 8: "eighty", 9: "ninety"}
+	ones = map[int]string{
+		1: "one",
+		2: "two",
+		3: "three",
+		4: "four",
+		5: "five",
+		6: "six",
+		7: "seven",
+		8: "eight",
+		9: "nine",
+	}
+
+	teens = map[int]string{
+		10: "ten",
+		11: "eleven",
+		12: "twelve",
+		13: "thirteen",
+		14: "fourteen",
+		15: "fifteen",
+		16: "sixteen",
+		17: "seventeen",
+		18: "eighteen",
+		19: "nineteen",
+	}
+
+	tens = map[int]string{
+		2: "twenty",
+		3: "thirty",
+		4: "forty",
+		5: "fifty",
+		6: "sixty",
+		7: "seventy",
+		8: "eighty",
+		9: "ninety",
+	}
 )
 
 var MaxWords = 12
@@ -54,11 +83,12 @@ func Spell(num int64) string {
 		case n < 20:
 			parts = append(parts, teens[n])
 		default:
-			word := tens[n/10]
+			word := make([]string, 0, 2)
+			word = append(word, tens[n/10])
 			if n%10 != 0 {
-				word += "-" + ones[n%10]
+				word = append(word, ones[n%10])
 			}
-			parts = append(parts, word)
+			parts = append(parts, strings.Join(word, "-"))
 		}
 	}
 
