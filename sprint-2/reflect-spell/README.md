@@ -89,7 +89,6 @@ type Wall struct {
 }
 
 func main() {
-
     player := &Player{
         name:   "Player_1",
         health: 100,

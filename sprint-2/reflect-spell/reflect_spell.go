@@ -69,6 +69,7 @@ func (s spell) Value() int {
 }
 
 type Player struct {
+	// nolint: unused
 	name   string
 	health int
 }
