@@ -14,11 +14,11 @@ func (err *myError) AddError(newErr string) {
 	*err = append(*err, newErr)
 }
 
-func (err myError) Error() error {
+func (err myError) Error() string {
 	if len(err) == 0 {
-		return nil
+		return ""
 	}
-	return errors.New(strings.Join(err, ";"))
+	return strings.Join(err, ";")
 }
 
 func MyCheck(input string) error {
@@ -48,6 +48,5 @@ func MyCheck(input string) error {
 	if spaceCounter != 2 {
 		errs.AddError("no two spaces")
 	}
-
-	return errs.Error()
+	return errors.New(errs.Error())
 }
