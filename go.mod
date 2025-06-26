@@ -1,8 +1,11 @@
 module github.com/mipt-golang-course/golang-tasks
 
-go 1.22.2
+go 1.24.4
 
-require github.com/stretchr/testify v1.9.0
+require (
+	github.com/stretchr/testify v1.9.0
+	golang.org/x/exp v0.0.0-20240222234643-814bf88cf225
+)
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
