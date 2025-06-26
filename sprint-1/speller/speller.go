@@ -74,6 +74,7 @@ func Spell(num int64) string {
 		if n >= 100 {
 			parts = append(parts, ones[n/100], "hundred")
 			n %= 100
+
 		}
 
 		switch {
